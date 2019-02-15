@@ -17,12 +17,18 @@
 #include QMK_KEYBOARD_H
 #include "muse.h"
 
+
+
 enum custom_keycodes
 {
-  SPC_ENT
+  SPC_ENT,
+  CT_MEDIA
 
 };
 
+// enum {
+//   TD_MEDIA_CONTROL = 0;
+// }
 enum preonic_layers
 {
   _QWERTY,
@@ -42,6 +48,38 @@ enum preonic_keycodes
   RAISE,
   BACKLIT
 };
+
+
+
+// 1 tap play/pause
+// 2 taps next
+// 3 taps previous
+void media_ctrl(qk_tap_dance_state_t *state, void *user_data) {
+  switch (state->count) {
+  case 1:
+    tap_code(KC_MPLY);
+    break;
+  case 2:
+    tap_code(KC_MNXT);
+
+    break;
+  case 3:
+    tap_code(KC_MPRV);
+
+  }
+
+    // reset_tap_dance (state);
+
+}
+
+
+
+//All tap dance functions would go here. Only showing this one.
+qk_tap_dance_action_t tap_dance_actions[] = {
+[CT_MEDIA] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, media_ctrl,NULL)
+
+};
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -123,7 +161,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TILD, KC_EXLM, KC_AT, KC_HASH, KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,
         KC_DEL, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
         _______, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, S(KC_NUHS), S(KC_NUBS), KC_HOME, KC_END, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC__MUTE),
+        _______, _______, _______, _______, _______, _______, _______, _______, TD(CT_MEDIA), KC_VOLD, KC_VOLU, KC__MUTE),
 
     /* Raise
  * ,-----------------------------------------------------------------------------------.
@@ -143,7 +181,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_DEL,
         KC_DEL, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_MINS, KC_EQL, KC_LBRC, KC_RBRC, KC_BSLS,
         _______, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_NUHS, KC_NUBS, KC_PGUP, KC_PGDN, _______,
-        _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC__MUTE),
+        _______, _______, _______, _______, _______, _______, _______, _______, TD(CT_MEDIA), KC_VOLD, KC_VOLU, KC__MUTE),
 
     /* Adjust (Lower + Raise)
  * ,-----------------------------------------------------------------------------------.

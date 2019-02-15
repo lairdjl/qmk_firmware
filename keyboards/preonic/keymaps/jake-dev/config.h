@@ -3,6 +3,9 @@
 
 #include "config_common.h"
 
+// #define TAPPING_TERM 200
+#define TAP_CODE_DELAY 100
+
 #ifdef AUDIO_ENABLE
     #define STARTUP_SONG SONG(PREONIC_SOUND)
     // #define STARTUP_SONG SONG(NO_SOUND)
