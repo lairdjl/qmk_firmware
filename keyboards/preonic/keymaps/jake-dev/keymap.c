@@ -16,8 +16,8 @@
 
 #include QMK_KEYBOARD_H
 #include "muse.h"
-
-
+#include "timer.h"
+#include "process_unicode_common.h"
 
 enum custom_keycodes
 {
@@ -50,12 +50,23 @@ enum preonic_keycodes
 };
 
 
+enum unicode_names {
+  R_PARENTHESES
+};
+const uint32_t PROGMEM unicode_map[] = {
+  [R_PARENTHESES]  = 0x0029
+};
+// const qk_ucis_symbol_t ucis_symbol_table[] = UCIS_TABLE(
+//   UCIS_SYM("right-paremtheses", UC(0x0029);), //
 
+// );
 // 1 tap play/pause
 // 2 taps next
 // 3 taps previous
-void media_ctrl(qk_tap_dance_state_t *state, void *user_data) {
-  switch (state->count) {
+void media_ctrl(qk_tap_dance_state_t *state, void *user_data)
+{
+  switch (state->count)
+  {
   case 1:
     tap_code(KC_MPLY);
     break;
@@ -65,21 +76,16 @@ void media_ctrl(qk_tap_dance_state_t *state, void *user_data) {
     break;
   case 3:
     tap_code(KC_MPRV);
-
   }
 
-    // reset_tap_dance (state);
-
+  // reset_tap_dance (state);
 }
-
-
 
 //All tap dance functions would go here. Only showing this one.
 qk_tap_dance_action_t tap_dance_actions[] = {
-[CT_MEDIA] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, media_ctrl,NULL)
-
+    [CT_MEDIA] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, media_ctrl, NULL)
+    // [SPC_ENT] =
 };
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -205,7 +211,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-static bool ENTER_PRESSED = FALSE;
+// static uint16_t ms = 0;
+
+// static bool ENTER_PRESSED = FALSE;
+// static bool key_held = FALSE;
 bool process_record_user(uint16_t keycode, keyrecord_t *record)
 {
   switch (keycode)
@@ -213,24 +222,44 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
     //my additions
   case SPC_ENT:
 
-    if (record->event.pressed)
-    {
-      if (!ENTER_PRESSED)
-      {
-        ENTER_PRESSED = TRUE;
-        register_code(KC_ENTER);
-      }
-    }
-    else
-    {
-      ENTER_PRESSED = FALSE;
-      unregister_code(KC_ENTER);
+ if (record->event.pressed){
 
-      // when keycode QMKBEST is released
-    }
-    return true;
+        tap_code(KC_ENTER);
+
+        return true;
+ }
+    // if (record->event.pressed)
+    // {
+    //   if(!key_held){
+    //     key_held = TRUE;
+    //     ms = timer_read();
+    //   }
+    //   if (timer_elapsed(ms) >= 200)
+    //   {
+    //     tap_code(KC_ENTER); return true;
+    //   }
+    //   // if (debouncing && timer_elapsed(debouncing_time) > DEBOUNCE) {
+    // }
+    // else
+    // {
+
+
+    //     key_held = FALSE;
+
+
+    //     SEND_STRING(")");
+
+
+    // }
+    // return true;
     break;
-    //defaults
+
+
+
+
+
+    //******************** defaults ***********************************
+
   case QWERTY:
     if (record->event.pressed)
     {
