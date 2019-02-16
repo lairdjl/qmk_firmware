@@ -226,8 +226,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record)
 
         tap_code(KC_ENTER);
 
-        return true;
+        return false;
  }
+
     // if (record->event.pressed)
     // {
     //   if(!key_held){
